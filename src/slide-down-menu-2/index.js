@@ -1,17 +1,55 @@
-$(() => {
-  $('.nav__link:not(:only-child)').click(function(e) {
-    $(this)
-      .siblings('.nav__dropdown')
-      .toggle()
+document.querySelectorAll('.nav__link:not(:only-child)').forEach(el =>
+  el.addEventListener('click', e => {
+    const dd = el.parentElement.querySelector('.nav__dropdown')
+    dd.style.display =
+      window.getComputedStyle(dd).display === 'block' ? 'none' : 'block'
 
     e.stopPropagation()
   })
+)
 
-  $('html').click(() => {
-    $('.nav__dropdown').hide()
-  })
-
-  $('.nav-toggle').click(() => {
-    $('.nav').slideToggle()
-  })
+document.documentElement.addEventListener('click', () => {
+  document
+    .querySelectorAll('.nav__dropdown')
+    .forEach(el => (el.style.display = 'none'))
 })
+
+document.querySelector('.nav-toggle').addEventListener(
+  'click',
+  (() => {
+    const el = document.querySelector('.nav')
+    el.style.visibility = 'hidden'
+    el.style.display = 'block'
+    const base = el.scrollHeight
+    el.style.removeProperty('display')
+    el.style.removeProperty('visibility')
+    let tid
+    let start
+
+    return () => {
+      start = start || Date.now()
+      const dur = 400
+      const collapse = !!el.scrollHeight
+      el.style.overflow = 'hidden'
+      el.style.display = 'block'
+      clearInterval(tid)
+
+      const step = () => {
+        const t = (Date.now() - start) / dur
+        if (t >= 1) {
+          el.style.removeProperty('overflow')
+          el.style.removeProperty('height')
+          collapse && el.style.removeProperty('display')
+          clearInterval(tid)
+          start = null
+          return
+        }
+
+        el.style.height = base * (collapse ? 1 - t : t) + 'px'
+      }
+
+      step()
+      tid = setInterval(step, 1000 / 60)
+    }
+  })()
+)
