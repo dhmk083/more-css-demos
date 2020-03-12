@@ -1,0 +1,143 @@
+@mixin burger($bar: 5px, $width: 35px, $color: black, $bg: white) {
+  display: inline-block;
+  background: $bg;
+  border: 1px solid $color;
+  padding: 3 * $bar $bar;
+  cursor: pointer;
+
+  span {
+    display: block;
+    position: relative;
+    width: $width;
+    height: $bar;
+    background: $color;
+
+    &:before,
+    &:after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: -200%;
+      background: $color;
+    }
+
+    &:after {
+      top: 200%;
+    }
+  }
+}
+
+$color-1: #262626;
+$color-2: #fff;
+$color-3: #2581dc;
+
+$break: 600px;
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.header {
+  background: $color-1;
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.logo {
+  font-size: 2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $color-2;
+}
+
+.nav {
+  @media (min-width: $break) {
+    display: block !important;
+  }
+
+  @media (max-width: $break) {
+    display: none;
+    flex-basis: 100%;
+  }
+
+  &__list {
+    display: flex;
+
+    @media (max-width: $break) {
+      display: block;
+    }
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__link {
+    display: block;
+    padding: 1.5em 1em;
+    line-height: 1em;
+    background: $color-1;
+    color: $color-2;
+    text-decoration: none;
+
+    &:hover {
+      background: $color-3;
+    }
+
+    &:not(:only-child):after {
+      padding-left: 0.5em;
+      content: ' ▾';
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    position: absolute;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+
+    @media (max-width: $break) {
+      position: static;
+      box-shadow: none;
+      padding-left: 2em;
+    }
+  }
+}
+
+.nav-toggle {
+  @include burger();
+  margin: 1em 0;
+
+  @media (min-width: $break) {
+    display: none;
+  }
+}
+
+.main {
+  &__title {
+    font-size: 2em;
+    font-weight: 700;
+    margin: 0.5em 0;
+  }
+}
+
+.container {
+  max-width: 1920px;
+  margin: auto;
+  padding: 0 1em;
+}
