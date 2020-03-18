@@ -18,24 +18,30 @@ document.querySelector('.nav-toggle').addEventListener(
   'click',
   (() => {
     const el = document.querySelector('.nav')
-    el.style.visibility = 'hidden'
-    el.style.display = 'block'
-    const base = el.scrollHeight
-    el.style.removeProperty('display')
-    el.style.removeProperty('visibility')
+    const measureHeight = () => {
+      el.style.visibility = 'hidden'
+      el.style.display = 'block'
+      const height = el.scrollHeight
+      el.style.removeProperty('display')
+      el.style.removeProperty('visibility')
+      return height
+    }
+
     let tid
     let start
 
     return () => {
-      start = start || Date.now()
-      const dur = 400
       const collapse = !!el.scrollHeight
+      const base = measureHeight()
+      const dur = 400
+      start = start || Date.now()
       el.style.overflow = 'hidden'
       el.style.display = 'block'
       clearInterval(tid)
 
       const step = () => {
         const t = (Date.now() - start) / dur
+
         if (t >= 1) {
           el.style.removeProperty('overflow')
           el.style.removeProperty('height')
