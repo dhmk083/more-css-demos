@@ -1,0 +1,113 @@
+$color-1: #202c45;
+$color-2: #fff;
+$color-3: #f2184f;
+
+$break: 850px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  background: $color-1;
+  padding: 0 2em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media (max-width: $break) {
+    padding: 0;
+
+    // these two are not very BEM, but quick :)
+    .brand {
+      margin: 0.5em;
+      margin-left: 1rem;
+    }
+
+    .menu-toggle {
+      margin-right: 1rem;
+    }
+    //
+  }
+}
+
+.brand {
+  a {
+    color: $color-2;
+    text-decoration: none;
+  }
+}
+
+.menu {
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    margin: 0 0.2em;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    color: $color-2;
+    padding: 2em;
+    height: 100%;
+    transition: background-color 0.5s;
+
+    &:hover {
+      background: $color-3;
+    }
+  }
+
+  @media (max-width: $break) {
+    display: none;
+    order: -1;
+    width: 100%;
+
+    &__list {
+      display: block;
+    }
+
+    &__item {
+      margin: 0.2em 0;
+    }
+
+    &__link {
+      display: flex;
+      justify-content: center;
+      background: darken($color-1, 10);
+      padding: 1em 0;
+      text-decoration: none;
+    }
+  }
+
+  @media (min-width: ($break + 1)) {
+    display: block !important;
+  }
+}
+
+.menu-toggle {
+  align-self: center;
+  display: none;
+  background: $color-3;
+  color: $color-2;
+  padding: 0.5em;
+  cursor: pointer;
+
+  @media (max-width: $break) {
+    display: block;
+  }
+}
+
+main {
+  padding: 1em;
+}
